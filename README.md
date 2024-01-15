@@ -1,7 +1,13 @@
-# Vue 3 + Vite
+# To Do App
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+This is a To-do App made in Vue3, Vite using tailwind UI with DaisyUI.
+I have used composition API in the same.
+Also, used JSON-SERVER as a mock-api.
+
+## Steps to setup
+- In root on folder, run npm install to install the dependencies.
+- To run frontend, run npm run dev
+- To run mock API, npx json-server db.json
 
 ## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur)
