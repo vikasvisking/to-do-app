@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { UpdateToDo } from '@/services'
+import DeleteToDo from './DeleteToDo.vue';
 
 const { task } = defineProps({
   task: {
@@ -24,7 +25,8 @@ const markAsDone = async () => {
   }
 }
 
-const openEdit = () =>  emits('edit', task.id)
+const openEdit = () => emits('edit', task.id)
+
 </script>
 <template>
   <div class="card bg-base-100 shadow-xl">
@@ -35,9 +37,7 @@ const openEdit = () =>  emits('edit', task.id)
           <span class="material-symbols-outlined text-primary cursor-pointer text-3xl" title="Edit" @click="openEdit">
             edit
           </span>
-          <span class="material-symbols-outlined text-error cursor-pointer text-3xl" title="Delete">
-              delete
-            </span>
+          <DeleteToDo :task-id="task.id" @success="emits('update')" />
         </div>
       </h2>
       <p>{{ task.description }}</p>
