@@ -1,6 +1,28 @@
 <script setup>
-import { computed, reactive, ref } from 'vue';
-import { AddToDo } from '@/services';
+import { computed, reactive, ref, onMounted } from 'vue';
+import { AddToDo, GetToDOById, UpdateToDo } from '@/services';
+
+const { editId } = defineProps({
+  editId: {
+    type: String
+  }
+})
+
+const getToDOById = async () => {
+  const { title, description, dueDate } = await GetToDOById(editId)
+  if (title) {
+    Object.assign(formData, { date: dueDate, title, description })
+  }
+}
+
+onMounted(() => {
+  if (editId) {
+    getToDOById()
+    document.getElementById('create_todo').showModal()
+  }
+})
+
+const emits = defineEmits(['success', 'close'])
 
 const getToday = computed(() => new Date().toISOString().slice(0, 10))
 const formData = reactive({
@@ -30,14 +52,22 @@ const validateForm = () => {
 
 const submit = async () => {
   const isValid = await validateForm()
-  console.log(formData, isValid)
   if (isValid) {
-    const response = await AddToDo({
+    let response;
+    const data = {
       ...formData,
       done: false,
       dueDate: formData.date
-    })
-    console.log(response, 'response')
+    }
+    if (editId) {
+      response = await UpdateToDo(editId, data)
+    } else {
+      response = await AddToDo(data)
+    }
+    if (response) {
+      document.getElementById('create_todo').close()
+      emits('success')
+    }
   }
 }
 
@@ -45,21 +75,21 @@ const submit = async () => {
 <template>
   <div>
     <button class="btn bg-primar text-xl" onclick="create_todo.showModal()">
-      <span class="material-symbols-outlined">
+      <span class="material-symbols-outlined font-bold">
         add
       </span>
       Create
     </button>
     <dialog id="create_todo" class="modal bg-gray-700 bg-opacity-75">
       <div class="modal-box">
-        <h3 class="font-bold text-lg mb-4 text-primary">Add A To Do</h3>
+        <h3 class="font-bold text-lg mb-4 text-primary">{{ editId ? 'Edit' : 'Add A' }} To Do</h3>
         <form>
           <div class="mb-4">
             <div class="label">
               <span class="label-text">Title</span>
             </div>
             <input type="text" v-model="formData.title" maxlength="50" placeholder="Enter the title"
-              class="input input-bordered w-full" :class="errors.title ? 'input-error' : 'input-primary'"/>
+              class="input input-bordered w-full" :class="errors.title ? 'input-error' : 'input-primary'" />
             <div class="label" v-if="errors.title">
               <span class="label-text">{{ errors.title }}</span>
             </div>
@@ -77,19 +107,20 @@ const submit = async () => {
             </div>
             <input type="date" :min="getToday" v-model="formData.date" placeholder="Type here"
               class="input input-bordered w-full" :class="errors.date ? 'input-error' : 'input-primary'" />
-              <div class="label" v-if="errors.date">
-                  <span class="label-text">{{ errors.date }}</span>
-                </div>
+            <div class="label" v-if="errors.date">
+              <span class="label-text">{{ errors.date }}</span>
+            </div>
           </div>
         </form>
         <div class="modal-action">
           <button class="btn btn-primary" @click="submit">
-            Add
+            {{ editId ? 'Save' : 'Add' }}
           </button>
           <form method="dialog">
-            <button class="btn">Close</button>
+            <button class="btn" @click="emits('close')">Close</button>
           </form>
         </div>
       </div>
     </dialog>
-</div></template>
+  </div>
+</template>
