@@ -22,14 +22,16 @@ onMounted(() => {
   }
 })
 
-const emits = defineEmits(['success', 'close'])
-
 const getToday = computed(() => new Date().toISOString().slice(0, 10))
-const formData = reactive({
+
+const defaultState = {
   title: '',
   description: '',
   date: getToday.value
-});
+}
+
+const emits = defineEmits(['success', 'close'])
+const formData = reactive({ ...defaultState });
 
 const errors = ref({})
 
@@ -65,6 +67,7 @@ const submit = async () => {
       response = await AddToDo(data)
     }
     if (response) {
+      Object.assign(formData, defaultState)
       document.getElementById('create_todo').close()
       emits('success')
     }
@@ -89,7 +92,7 @@ const submit = async () => {
               <span class="label-text">Title</span>
             </div>
             <input type="text" v-model="formData.title" maxlength="50" placeholder="Enter the title"
-              class="input input-bordered w-full" :class="errors.title ? 'input-error' : 'input-primary'" />
+              class="input input-bordered w-full text-white" :class="errors.title ? 'input-error' : 'input-primary'" />
             <div class="label" v-if="errors.title">
               <span class="label-text">{{ errors.title }}</span>
             </div>
@@ -99,14 +102,14 @@ const submit = async () => {
               <span class="label-text">Description</span>
             </div>
             <input type="text" v-model="formData.description" placeholder="Enter the description"
-              class="input input-bordered input-primary w-full" />
+              class="input input-bordered input-primary w-full text-white" />
           </div>
           <div class="mb-4">
             <div class="label">
               <span class="label-text">Select Date</span>
             </div>
             <input type="date" :min="getToday" v-model="formData.date" placeholder="Type here"
-              class="input input-bordered w-full" :class="errors.date ? 'input-error' : 'input-primary'" />
+              class="input input-bordered w-full text-white" :class="errors.date ? 'input-error' : 'input-primary'" />
             <div class="label" v-if="errors.date">
               <span class="label-text">{{ errors.date }}</span>
             </div>
