@@ -1,5 +1,3 @@
-import { createApp } from 'vue'
-import './style.css'
-import MyToDo from '@/MyToDoApp/pages/index.vue';
+import register from "./MyToDoApp/register";
 
-createApp(MyToDo).mount('#app')
+register()

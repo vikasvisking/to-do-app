@@ -10,5 +10,12 @@ export default defineConfig({
     },
   },
   base: "/to-do-app/",
-  plugins: [vue()],
+  plugins: [vue({
+    template: {
+      compilerOptions: {
+        // treat all tags with a dash as custom elements
+        isCustomElement: (tag) => tag.includes('-')
+      }
+    }
+  })],
 })

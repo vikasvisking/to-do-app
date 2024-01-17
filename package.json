@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "json-server": "^1.0.0-alpha.21",
-    "vue": "^3.3.11"
+    "vue": "^3.3.11",
+    "vue3-webcomponent-wrapper": "^0.2.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.5.2",
