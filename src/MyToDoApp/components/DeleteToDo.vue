@@ -1,5 +1,5 @@
 <script setup>
-import { DeleteToDo } from '@/services';
+import { DeleteToDo } from '../services';
 
 const emits = defineEmits(['success'])
 const { taskId } = defineProps({

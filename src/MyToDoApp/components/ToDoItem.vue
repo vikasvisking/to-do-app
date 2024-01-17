@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue';
-import { UpdateToDo } from '@/services'
+import { UpdateToDo } from '../services'
 import DeleteToDo from './DeleteToDo.vue';
 
 const { task } = defineProps({

@@ -1,6 +1,6 @@
 <script setup>
 import { computed, reactive, ref, onMounted } from 'vue';
-import { AddToDo, GetToDOById, UpdateToDo } from '@/services';
+import { AddToDo, GetToDOById, UpdateToDo } from '../services';
 
 const { editId } = defineProps({
   editId: {
